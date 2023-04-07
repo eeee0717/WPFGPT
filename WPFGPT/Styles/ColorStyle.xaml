@@ -1,0 +1,42 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+    
+    <SolidColorBrush x:Key="Red">#df1125</SolidColorBrush>
+    <SolidColorBrush x:Key="Neon Pink">#fb212f</SolidColorBrush>
+    <SolidColorBrush x:Key="Electric Pink">#fc3644</SolidColorBrush>
+    <SolidColorBrush x:Key="Hibiscus">#fb0049</SolidColorBrush>
+    <SolidColorBrush x:Key="Pink">#fd4154</SolidColorBrush>
+    <SolidColorBrush x:Key="Pink Citrus">#ea383a</SolidColorBrush>
+    <SolidColorBrush x:Key="Dragon Fruit">#f12e6d</SolidColorBrush>
+    <SolidColorBrush x:Key="Pomagranate">#d80e4f</SolidColorBrush>
+    <SolidColorBrush x:Key="Camellia">#bf3138</SolidColorBrush>
+    <SolidColorBrush x:Key="Red Rose">#ab1438</SolidColorBrush>
+    <SolidColorBrush x:Key="Plum">#81323d</SolidColorBrush>
+    
+    <SolidColorBrush x:Key="Orange">#fc4e12</SolidColorBrush>
+    <SolidColorBrush x:Key="Clementine">#fd513b</SolidColorBrush>
+    <SolidColorBrush x:Key="Apricot">#fc5c42</SolidColorBrush>
+    <SolidColorBrush x:Key="Papaya">#fd7036</SolidColorBrush>
+    <SolidColorBrush x:Key="Kumquat">#fd7441</SolidColorBrush>
+    
+    <SolidColorBrush x:Key="Spearmint">#77ea7e</SolidColorBrush>
+    <SolidColorBrush x:Key="Mint">#a2ec8e</SolidColorBrush>
+    <SolidColorBrush x:Key="Beryl">#d0f2b1</SolidColorBrush>
+    <SolidColorBrush x:Key="Sea Foam">#cff1d6</SolidColorBrush>
+    <SolidColorBrush x:Key="Turquoise">#91cec2</SolidColorBrush>
+    
+    <SolidColorBrush x:Key="Light Blue">#5ebad9</SolidColorBrush>
+    <SolidColorBrush x:Key="Cerulian">#87b9e7</SolidColorBrush>
+    <SolidColorBrush x:Key="Surf Blue">#1871ac</SolidColorBrush>
+    <SolidColorBrush x:Key="Dark Teal">#2c6184</SolidColorBrush>
+    
+    <SolidColorBrush x:Key="Ultra Violet">#5f41b2</SolidColorBrush>
+    <SolidColorBrush x:Key="Ocean Blue">#6273bd</SolidColorBrush>
+    <SolidColorBrush x:Key="Delft Blue">#4662b2</SolidColorBrush>
+    <SolidColorBrush x:Key="System Dark">#8E8E93</SolidColorBrush>
+    <SolidColorBrush x:Key="System Light">#f1f0ed</SolidColorBrush>
+    
+    
+</ResourceDictionary>

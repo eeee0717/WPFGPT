@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:WPFGPT"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ColorStyle.xaml" />
+                <ResourceDictionary Source="/Styles/ChatStyle.xaml" />
+                <ResourceDictionary Source="/Styles/CommonStyle.xaml" />
+              
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

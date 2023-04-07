@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -19,17 +21,20 @@ namespace WPFGPT.ViewModels;
 public partial class MainWindowViewModel: ObservableObject
 {
     public ObservableCollection<ChatMessage> ChatObservableCollection { set; get; } = new();
-    private readonly ChatGpt _chatGpt = new();
+    private ChatGpt _chatGpt;
     
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ClickCommand))]
     private string? _messageInput;
     [ObservableProperty]
     private object? _apiKey;
-
     private Config? _config;
-
-
+    [ObservableProperty]
+    private int _systemType;
+    [ObservableProperty]
+    private int _modelType;
+    [ObservableProperty]
+    private int _maxToken;
     public MainWindowViewModel()
     {
         this.Initialize();
@@ -66,15 +71,16 @@ public partial class MainWindowViewModel: ObservableObject
     [RelayCommand(CanExecute = nameof(CanClick))]
     private async Task Click()
     {
-
+        this._chatGpt = new ChatGpt(this.ApiKey!.ToString()!, this.MaxToken);
         var chatMessage = new ChatMessage { IsSend = true, Message = MessageInput };
         this.ChatObservableCollection.Add(chatMessage);
         this.MessageInput = "";
-        await this._chatGpt.Chat(this.ChatObservableCollection, chatMessage.Message);
+
+        await this._chatGpt.Chat(this.ChatObservableCollection, chatMessage.Message, this.SystemType);
     }
     bool CanClick() => !string.IsNullOrEmpty(MessageInput);
 
-
+  
 
    
 }

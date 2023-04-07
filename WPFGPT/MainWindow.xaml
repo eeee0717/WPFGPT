@@ -29,6 +29,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -54,7 +55,7 @@
                     Minimum="100" Maximum="4000" TickFrequency="100" IsSnapToTickEnabled="True" Value="{Binding MaxToken}">
             </Slider>
             <Label Grid.Row="3" Grid.Column="2" Width="40" Height="30" Content="{Binding ElementName=Token, Path=Value}"></Label>
-
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Height="40" Width="120" Content="清除对话" Command="{Binding ClearClickCommand}"></Button>
         </Grid>
         <components:ScrollingListBox Grid.Row="0" Grid.Column="0" MinWidth="800" BorderBrush="#D3D3D3"
                                      BorderThickness="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled"

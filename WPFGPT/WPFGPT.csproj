@@ -29,6 +29,7 @@
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0-preview2" />
+      <PackageReference Include="MdXaml" Version="1.17.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OpenAI-DotNet" Version="6.6.0" />
     </ItemGroup>

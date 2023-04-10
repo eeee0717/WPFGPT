@@ -13,6 +13,7 @@ namespace WPFGPT
         {
             this.InitializeComponent();
             this.Closed += this.OnClosed;
+            
         }
 
         private void OnClosed(object? sender, EventArgs e)

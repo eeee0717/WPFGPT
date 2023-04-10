@@ -22,6 +22,7 @@ public class ChatGpt
     {
         
         chatObservableCollection.Add(new ChatMessage{IsSend = false, Message = "Is thinking..." });
+        system = $"Please use the markdown grammar to reply me.{system}";
         var chatPrompts = new List<ChatPrompt>
         {
             new("system", system),

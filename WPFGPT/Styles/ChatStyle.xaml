@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml">
     <DataTemplate x:Key="ChatSend">
         <StackPanel
             x:Name="SendMsg"
@@ -9,13 +10,13 @@
             <StackPanel Margin="0,0,10,0" Orientation="Vertical">
                 <!--  消息内容  -->
                 <Border
-                    MinWidth="50" MinHeight="30" MaxWidth="400"
+                    MinWidth="50" MinHeight="30"
                     Background="{StaticResource Turquoise}"
                     BorderBrush="{StaticResource 'System Light'}"
                     BorderThickness="1" CornerRadius="0,8,8,8">
-                    <TextBlock MinWidth="30" Margin="8" VerticalAlignment="Center" Background="Transparent"
-                               FontSize="14" Text="{Binding Message}"
-                               TextWrapping="WrapWithOverflow" />
+                    <mdxam:MarkdownScrollViewer MinWidth="30" MaxWidth="300" Margin="8" VerticalAlignment="Center" Background="Transparent"
+                                                FontSize="14" Markdown="{Binding Message}" VerticalScrollBarVisibility="Hidden"
+                                                />
                 </Border>
             </StackPanel>
             <!--  头像  -->
@@ -54,10 +55,9 @@
                     BorderBrush="{StaticResource 'System Light'}"
                     BorderThickness="1"
                     CornerRadius="0,8,8,8">
-                    <TextBlock
-                        MinWidth="30" Margin="8" VerticalAlignment="Center" Background="Transparent"
-                        FontSize="14" Text="{Binding Message}"
-                        TextWrapping="WrapWithOverflow"/>
+                    <mdxam:MarkdownScrollViewer MinWidth="30" MaxWidth="300" Margin="8" VerticalAlignment="Center" Background="Transparent"
+                                                FontSize="14" Markdown="{Binding Message}" VerticalScrollBarVisibility="Hidden"
+                    />
                 </Border>
             </StackPanel>
         </StackPanel>

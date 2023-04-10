@@ -40,11 +40,9 @@
             <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ListTextBoxStyle}"
                      Text="{Binding ApiKey, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
+            <Button Grid.Row="0" Grid.Column="2" Width="30" Height="30" Command="{Binding SaveClickCommand}">Save</Button>
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="System Setting"></Label>
-            <ComboBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ListComboBoxStyle}"
-                      ItemsSource="{Binding Source={tools:EnumBindingSource enumTypes:SystemType}}"
-                      SelectedIndex="{Binding SystemType}">
-            </ComboBox>
+            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ListTextBoxStyle}" Text="{Binding System}"></TextBox>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Model"></Label>
             <ComboBox Grid.Row="2" Grid.Column="1" Style="{StaticResource ListComboBoxStyle}"
                       ItemsSource="{Binding Source={tools:EnumBindingSource enumTypes:ModelType}}"
@@ -52,10 +50,10 @@
             </ComboBox>
             <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Max Token"></Label>
             <Slider x:Name="Token" Grid.Row="3" Grid.Column="1" Width="120" Height="30" Margin="0,13,0,0"
-                    Minimum="100" Maximum="4000" TickFrequency="100" IsSnapToTickEnabled="True" Value="{Binding MaxToken}">
+                    Minimum="500" Maximum="4000" TickFrequency="100" IsSnapToTickEnabled="True" Value="{Binding MaxToken}">
             </Slider>
             <Label Grid.Row="3" Grid.Column="2" Width="40" Height="30" Content="{Binding ElementName=Token, Path=Value}"></Label>
-            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Height="40" Width="120" Content="清除对话" Command="{Binding ClearClickCommand}"></Button>
+            <Button x:Name="ClearButton" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Height="40" Width="120" Content="清除对话" Command="{Binding ClearClickCommand}" IsEnabled="{Binding IsEnabled}"></Button>
         </Grid>
         <components:ScrollingListBox Grid.Row="0" Grid.Column="0" MinWidth="800" BorderBrush="#D3D3D3"
                                      BorderThickness="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled"

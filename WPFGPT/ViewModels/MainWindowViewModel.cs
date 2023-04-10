@@ -20,63 +20,69 @@ namespace WPFGPT.ViewModels;
 public partial class MainWindowViewModel : ObservableObject
 {
     public ObservableCollection<ChatMessage> ChatObservableCollection { set; get; } = new();
-    private ChatGpt _chatGpt;
+    private readonly ChatGpt _chatGpt;
 
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ClickCommand))]
     private string? _messageInput;
 
-    [ObservableProperty] private object? _apiKey;
-    private Config? _config;
+    [ObservableProperty] private string? _apiKey;
+    private readonly Config _config;
     [ObservableProperty] private int _systemType;
     [ObservableProperty] private int _modelType;
 
     [ObservableProperty] private int _maxToken = 100;
 
+    [ObservableProperty] private string? _system;
+    [ObservableProperty] private bool? _isEnabled;
+
     public MainWindowViewModel()
     {
+        this._chatGpt = new ChatGpt();
+        this._config = new Config();
         this.Initialize();
     }
 
     private void Initialize()
     {
-        this.GetConfig();
+        this._config.GetConfig();
+        this.SetSettings();
+        if (this.ApiKey == "")
+        {
+            MessageBox.Show("Please Set The Api Key!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 
-    private void GetConfig()
+    private void SetSettings()
     {
-        var configJson = "config.json";
-        if (!File.Exists(configJson))
-        {
-            File.Create(configJson).Close();
-        }
-
-        string jsonString;
-        using (StreamReader reader = new StreamReader(configJson))
-        {
-            jsonString = reader.ReadToEnd();
-        }
-
-        if (!string.IsNullOrEmpty(jsonString))
-        {
-            this._config = JsonConvert.DeserializeObject<Config>(jsonString);
-            this.ApiKey = this._config!.Api;
-            this._chatGpt = new ChatGpt(this.ApiKey!.ToString()!, this.MaxToken);
-        }
-        // else
-        // {
-        //     MessageBox.Show("Please Set The Api Key!", "Warning",MessageBoxButton.OK, MessageBoxImage.Warning);
-        // }
+        this.ApiKey = this._config.Api;
+        this.System = this._config.System;
     }
 
     [RelayCommand(CanExecute = nameof(CanClick))]
     private async Task Click()
     {
+        if (this.ApiKey == "")
+        {
+            return;
+        }
+
+        if (this.ApiKey!.Contains("sk"))
+        {
+            this._chatGpt.Api = new OpenAIClient(new OpenAIAuthentication(this.ApiKey));
+        }
+        else
+        {
+            MessageBox.Show("Please Set The Correct Api Key!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
         this._chatGpt.MaxToken = this.MaxToken;
         var chatMessage = new ChatMessage { IsSend = true, Message = MessageInput };
         this.ChatObservableCollection.Add(chatMessage);
         this.MessageInput = "";
-
-        await this._chatGpt.Chat(this.ChatObservableCollection, chatMessage.Message, this.SystemType, this.ModelType);
+        this.IsEnabled = false;
+        await this._chatGpt.Chat(this.ChatObservableCollection, chatMessage.Message, this.System, this.ModelType);
+        this.IsEnabled = true;
     }
 
     bool CanClick() => !string.IsNullOrEmpty(MessageInput);
@@ -85,5 +91,19 @@ public partial class MainWindowViewModel : ObservableObject
     private void ClearClick()
     {
         this.ChatObservableCollection.Clear();
+    }
+
+    [RelayCommand]
+    private void SaveClick()
+    {
+        var configJson = "config.json";
+        var config = new Config
+        {
+            Api = this.ApiKey,
+            System = this.System
+        };
+        var configString = JsonConvert.SerializeObject(config);
+        File.Create(configJson).Close();
+        File.WriteAllText(configJson, configString);
     }
 }

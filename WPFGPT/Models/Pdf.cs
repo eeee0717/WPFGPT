@@ -79,7 +79,10 @@ public class Pdf
             var fileName =
                 saveFileDialog.FileName.Substring(saveFileDialog.FileName.LastIndexOf("\\", StringComparison.Ordinal) +
                                                   1);
-            fileName = fileName.Substring(0, fileName.IndexOf('.'));
+            if (fileName.Contains('.'))
+            {
+                fileName = fileName.Substring(0, fileName.IndexOf('.'));
+            }
             gfx.DrawString(fileName, font, XBrushes.Black,
                 new XRect(marginLeftRight, marginTopBottom, page.Width - 2 * curX, 80),
                 XStringFormats.Center);

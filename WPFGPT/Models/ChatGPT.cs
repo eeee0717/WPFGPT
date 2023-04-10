@@ -17,17 +17,23 @@ public class ChatGpt
     public int MaxToken { get; set; }
     private readonly Model[] _models = { Model.GPT3_5_Turbo, Model.GPT4, Model.GPT4_32K  };
     private List<ChatPrompt> ChatPrompts { get; set; }
-    public ChatGpt(string? system)
+    public string? System { get; set; }
+    private bool _haveSystem = false;
+    public ChatGpt()
     {
-        system = $"Please use the markdown grammar to reply me.{system}";
-        ChatPrompts = new List<ChatPrompt>
-        {
-            new("system", system)
-        };
+        System = "Please use the markdown grammar to reply me.";
+
     }
     public async Task Chat(ObservableCollection<ChatMessage> chatObservableCollection,string? prompt, int modelType)
     {
-        
+        if (_haveSystem == false)
+        {
+            ChatPrompts = new List<ChatPrompt>
+            {
+                new("system", System)
+            };
+            _haveSystem = true;
+        }
         chatObservableCollection.Add(new ChatMessage{IsSend = false, Message = "Is thinking..." });
         
         ChatPrompts.Add(new("user", prompt));
@@ -37,7 +43,7 @@ public class ChatGpt
         {
             response += result.FirstChoice;
             ChatMessage message = new ChatMessage { IsSend = false, Message = response };
-            System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+            global::System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 chatObservableCollection.Remove(chatObservableCollection.Last());
                 chatObservableCollection.Add(message);

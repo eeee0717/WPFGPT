@@ -24,7 +24,7 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly ChatGpt _chatGpt;
     private readonly Config _config;
     private readonly Audio _audio;
-    private string? KeyWords = null;
+    private string? _keyWords = null;
     private bool _isRecording = false;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ClickCommand))]
     private string? _messageInput;
@@ -38,7 +38,7 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty] private int _languageType;
     public MainWindowViewModel()
     {
-        this._chatGpt = new ChatGpt(this.System);
+        this._chatGpt = new ChatGpt();
         this._config = new Config();
         this._audio = new Audio();
         this.Initialize();
@@ -81,9 +81,9 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanClick))]
     private async Task Click()
     {
-        this.KeyWords = this.MessageInput;
+        this._keyWords = this.MessageInput;
         this.CheckApi();
-
+        this._chatGpt.System += this.System;
         this._chatGpt.MaxToken = this.MaxToken;
         var chatMessage = new ChatMessage { IsSend = true, Message = MessageInput };
         this.ChatObservableCollection.Add(chatMessage);
@@ -105,7 +105,7 @@ public partial class MainWindowViewModel : ObservableObject
     private void SaveReadingChatsClick()
     {
         var pdf = new Pdf();
-        pdf.GeneratePdf(this.KeyWords!, this._chatGpt.GetPrompts());
+        pdf.GeneratePdf(this._keyWords!, this._chatGpt.GetPrompts());
     }
     
 

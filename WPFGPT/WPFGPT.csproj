@@ -40,6 +40,8 @@
       <PackageReference Include="NAudio" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OpenAI-DotNet" Version="6.6.0" />
+      <PackageReference Include="PDFsharp" Version="1.50.5147" />
+      <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0-preview.2.23128.3" />
     </ItemGroup>
 
 </Project>

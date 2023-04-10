@@ -59,7 +59,10 @@
                       ItemsSource="{Binding Source={tools:EnumBindingSource enumTypes:LanguageType}}"
                       SelectedIndex="{Binding LanguageType}">
             </ComboBox>
-            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Height="40" Width="120" Content="Clear Chats" Command="{Binding ClearClickCommand}" IsEnabled="{Binding IsEnabled}"></Button>
+            <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Height="40" Width="120" Margin="5" Content="Clear Chats" Command="{Binding ClearClickCommand}" IsEnabled="{Binding IsEnabled}"></Button>
+                <Button Height="40" Width="120" Margin="5" Content="Save Chats" Command="{Binding SaveReadingChatsClickCommand}" IsEnabled="{Binding IsEnabled}"></Button>
+            </StackPanel>
         </Grid>
         <components:ScrollingListBox Grid.Row="0" Grid.Column="0" MinWidth="800" BorderBrush="#D3D3D3"
                                      BorderThickness="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled"

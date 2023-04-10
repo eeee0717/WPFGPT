@@ -12,7 +12,7 @@ public class Audio
         var format = new WaveFormat(44100, 16, 1);
         this.MWavIn = new WaveInEvent { WaveFormat = format };
         this.MWavIn.DataAvailable += this.MWavIn_DataAvailable!;
-        this.MWavWriter = new WaveFileWriter("ApeVoice.wav", MWavIn.WaveFormat);
+        this.MWavWriter = new WaveFileWriter("Audio.wav", MWavIn.WaveFormat);
         this.MWavIn.StartRecording();
     }
     

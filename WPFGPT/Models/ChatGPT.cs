@@ -46,7 +46,7 @@ public class ChatGpt
 
     public async Task<string> Whisper(string language)
     {
-        var audioPath = "ApeVoice.wav";
+        var audioPath = "Audio.wav";
         var request = new AudioTranscriptionRequest(Path.GetFullPath(audioPath), language: language);
         var result = await Api!.AudioEndpoint.CreateTranscriptionAsync(request);
         return result;

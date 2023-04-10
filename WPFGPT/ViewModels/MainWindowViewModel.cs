@@ -46,10 +46,6 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void Initialize()
     {
-        if (!Directory.Exists("Assets"))
-        {
-            Directory.CreateDirectory("Assets");
-        }
         this._config.GetConfig();
         this.SetSettings();
         if (this.ApiKey == "")

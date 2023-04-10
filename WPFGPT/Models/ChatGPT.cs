@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using OpenAI;
+using OpenAI.Audio;
 using OpenAI.Chat;
 using OpenAI.Models;
 
@@ -40,5 +42,13 @@ public class ChatGpt
                 chatObservableCollection.Add(message);
             }));
         });
+    }
+
+    public async Task<string> Whisper(string language)
+    {
+        var audioPath = "ApeVoice.wav";
+        var request = new AudioTranscriptionRequest(Path.GetFullPath(audioPath), language: language);
+        var result = await Api!.AudioEndpoint.CreateTranscriptionAsync(request);
+        return result;
     }
 }

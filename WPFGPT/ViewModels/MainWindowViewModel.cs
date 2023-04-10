@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using OpenAI;
+using WPFGPT.EnumTypes;
 using WPFGPT.Models;
 
 namespace WPFGPT.ViewModels;
@@ -21,29 +22,34 @@ public partial class MainWindowViewModel : ObservableObject
 {
     public ObservableCollection<ChatMessage> ChatObservableCollection { set; get; } = new();
     private readonly ChatGpt _chatGpt;
-
+    private readonly Config _config;
+    private readonly Audio _audio;
+    
+    private bool _isRecording = false;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ClickCommand))]
     private string? _messageInput;
-
     [ObservableProperty] private string? _apiKey;
-    private readonly Config _config;
     [ObservableProperty] private int _systemType;
     [ObservableProperty] private int _modelType;
-
     [ObservableProperty] private int _maxToken = 100;
-
     [ObservableProperty] private string? _system;
     [ObservableProperty] private bool? _isEnabled;
-
+    [ObservableProperty] private string? _recordImg = "Icons/Record.png";
+    [ObservableProperty] private int _languageType;
     public MainWindowViewModel()
     {
         this._chatGpt = new ChatGpt();
         this._config = new Config();
+        this._audio = new Audio();
         this.Initialize();
     }
 
     private void Initialize()
     {
+        if (!Directory.Exists("Assets"))
+        {
+            Directory.CreateDirectory("Assets");
+        }
         this._config.GetConfig();
         this.SetSettings();
         if (this.ApiKey == "")
@@ -58,8 +64,7 @@ public partial class MainWindowViewModel : ObservableObject
         this.System = this._config.System;
     }
 
-    [RelayCommand(CanExecute = nameof(CanClick))]
-    private async Task Click()
+    private void CheckApi()
     {
         if (this.ApiKey == "")
         {
@@ -73,8 +78,13 @@ public partial class MainWindowViewModel : ObservableObject
         else
         {
             MessageBox.Show("Please Set The Correct Api Key!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
         }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanClick))]
+    private async Task Click()
+    {
+        this.CheckApi();
 
         this._chatGpt.MaxToken = this.MaxToken;
         var chatMessage = new ChatMessage { IsSend = true, Message = MessageInput };
@@ -106,4 +116,26 @@ public partial class MainWindowViewModel : ObservableObject
         File.Create(configJson).Close();
         File.WriteAllText(configJson, configString);
     }
+    
+    
+    [RelayCommand]
+    private async Task RecordClick()
+    {
+        this.CheckApi();
+        var language =Enum.Parse(typeof(LanguageType), this.LanguageType.ToString());
+        if (_isRecording == false)
+        {
+            _isRecording = true;
+            this.RecordImg = "Icons/Stop.png";
+            this._audio.StartRecording();
+        }
+        else
+        {
+            _isRecording = false;
+            this.RecordImg = "Icons/Record.png";
+            this._audio.StopRecording();
+            this.MessageInput = await this._chatGpt.Whisper(language.ToString()!);
+        }
+    }
+
 }

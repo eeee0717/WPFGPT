@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Icons\" />
       <Folder Include="Views\" />
     </ItemGroup>
 
@@ -25,11 +24,20 @@
       <Resource Include="Icons\SendMessage.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Resource>
+      <None Remove="Icons\Record.png" />
+      <Resource Include="Icons\Record.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Icons\Stop.png" />
+      <Resource Include="Icons\Stop.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0-preview2" />
       <PackageReference Include="MdXaml" Version="1.17.0" />
+      <PackageReference Include="NAudio" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OpenAI-DotNet" Version="6.6.0" />
     </ItemGroup>

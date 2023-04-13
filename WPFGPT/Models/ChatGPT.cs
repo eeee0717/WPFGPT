@@ -33,13 +33,13 @@ public class ChatGpt
             this._synthesizer.SetOutputToDefaultAudioDevice();
             this._synthesizer.Rate = 5;
         }
-        if (_haveSystem == false)
+        if (this._haveSystem == false)
         {
             ChatPrompts = new List<ChatPrompt>
             {
                 new("system", System)
             };
-            _haveSystem = true;
+            this._haveSystem = true;
         }
         chatObservableCollection.Add(new ChatMessage{IsSend = false, Message = "Is thinking..." });
         

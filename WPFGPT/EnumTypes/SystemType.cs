@@ -11,5 +11,7 @@ public enum SystemType
     Type = 0,
     [Description("Article Assistant")]
     Type1 = 1,
+    [Description("Custom")]
+    Type2 = 2
 
 }

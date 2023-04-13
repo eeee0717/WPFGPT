@@ -106,7 +106,7 @@ public partial class MainWindowViewModel : ObservableObject
     {
         this._keyWords += $" {this.MessageInput}";
         this.CheckApi();
-        this._chatGpt.System += this.System;
+        this._chatGpt.System = this.System;
         this._chatGpt.MaxToken = this.MaxToken;
         var chatMessage = new ChatMessage { IsSend = true, Message = MessageInput };
         this.ChatObservableCollection.Add(chatMessage);
@@ -178,6 +178,12 @@ public partial class MainWindowViewModel : ObservableObject
     private void SystemChanged()
     {
         var type = this.SystemType;
+        if (this._systemArray.Length < type + 1)
+        {
+            MessageBox.Show("Please Add New System!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            this.SystemType = 0;
+            return;
+        }
         this.System = this._systemArray[type];
     }
     

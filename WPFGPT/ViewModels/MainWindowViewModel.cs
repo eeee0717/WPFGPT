@@ -81,7 +81,7 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanClick))]
     private async Task Click()
     {
-        this._keyWords = this.MessageInput;
+        this._keyWords += $" {this.MessageInput}";
         this.CheckApi();
         this._chatGpt.System += this.System;
         this._chatGpt.MaxToken = this.MaxToken;

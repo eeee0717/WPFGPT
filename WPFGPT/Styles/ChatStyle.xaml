@@ -14,9 +14,9 @@
                     Background="{StaticResource Turquoise}"
                     BorderBrush="{StaticResource 'System Light'}"
                     BorderThickness="1" CornerRadius="0,8,8,8">
-                    <mdxam:MarkdownScrollViewer MinWidth="30" MaxWidth="300" Margin="8" VerticalAlignment="Center" Background="Transparent"
-                                                FontSize="14" Markdown="{Binding Message}" VerticalScrollBarVisibility="Hidden"
-                                                />
+                    <TextBlock MinWidth="30" Margin="8" VerticalAlignment="Center" Background="Transparent"
+                               FontSize="14" Text="{Binding Message}"
+                               TextWrapping="WrapWithOverflow" />
                 </Border>
             </StackPanel>
             <!--  头像  -->
@@ -55,9 +55,9 @@
                     BorderBrush="{StaticResource 'System Light'}"
                     BorderThickness="1"
                     CornerRadius="0,8,8,8">
-                    <mdxam:MarkdownScrollViewer MinWidth="30" MaxWidth="300" Margin="8" VerticalAlignment="Center" Background="Transparent"
-                                                FontSize="14" Markdown="{Binding Message}" VerticalScrollBarVisibility="Hidden"
-                    />
+                    <TextBlock MinWidth="30" Margin="8" VerticalAlignment="Center" Background="Transparent"
+                               FontSize="14" Text="{Binding Message}"
+                               TextWrapping="WrapWithOverflow" />
                 </Border>
             </StackPanel>
         </StackPanel>

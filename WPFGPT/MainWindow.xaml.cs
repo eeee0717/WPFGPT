@@ -19,5 +19,7 @@ namespace WPFGPT
         {
             this.Close();
         }
+
+
     }
 }

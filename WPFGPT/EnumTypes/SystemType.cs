@@ -7,10 +7,9 @@ namespace WPFGPT.EnumTypes;
 
 public enum SystemType
 {
-    [Description("翻译官")]
+    [Description("Speaking Partner")]
     Type = 0,
-    [Description("脱口秀演员")]
+    [Description("Article Assistant")]
     Type1 = 1,
-    [Description("IT专家")]
-    Type2 = 2
+
 }

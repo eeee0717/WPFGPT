@@ -36,11 +36,14 @@
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0-preview2" />
+      <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
       <PackageReference Include="MdXaml" Version="1.17.0" />
+      <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
       <PackageReference Include="NAudio" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OpenAI-DotNet" Version="6.6.0" />
       <PackageReference Include="PDFsharp" Version="1.50.5147" />
+      <PackageReference Include="System.Speech" Version="8.0.0-preview.2.23128.3" />
       <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0-preview.2.23128.3" />
     </ItemGroup>
 

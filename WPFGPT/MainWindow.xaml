@@ -4,12 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGPT"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:viewModels="clr-namespace:WPFGPT.ViewModels"
         xmlns:components="clr-namespace:WPFGPT.Components"
         xmlns:enumTypes="clr-namespace:WPFGPT.EnumTypes"
         xmlns:models="clr-namespace:WPFGPT.Models"
         xmlns:tools="clr-namespace:WPFGPT.Tools"
-        Title="MainWindow" Height="800" Width="1200"
+        Title="MainWindow" Height="800" Width="1400"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
@@ -31,6 +34,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -41,27 +45,54 @@
             <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ListTextBoxStyle}"
                      Text="{Binding ApiKey, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
-            <Button Grid.Row="0" Grid.Column="2" Width="30" Height="30" Command="{Binding SaveClickCommand}">Save</Button>
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="System Setting"></Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ListTextBoxStyle}" Text="{Binding System}"></TextBox>
-            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Model"></Label>
-            <ComboBox Grid.Row="2" Grid.Column="1" Style="{StaticResource ListComboBoxStyle}"
+            <!-- <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ListTextBoxStyle}" Text="{Binding System}"></TextBox> -->
+            <ComboBox   Grid.Row="1" Grid.Column="2"  Height="30" MinWidth="130" VerticalContentAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      ItemsSource="{Binding Source={tools:EnumBindingSource enumTypes:SystemType}}"
+                      SelectedIndex="{Binding SystemType}" 
+            >
+               <behaviors:Interaction.Triggers>
+                   <behaviors:EventTrigger EventName="SelectionChanged">
+                       <behaviors:InvokeCommandAction Command="{Binding SystemChangedCommand }" />
+                   </behaviors:EventTrigger>
+               </behaviors:Interaction.Triggers> 
+            </ComboBox>
+            <xctk:MultiLineTextEditor Grid.Row="1" Grid.Column="1" FontSize="14" Height="30" Width="120" Text="{Binding System}"
+                                      TextWrapping="WrapWithOverflow">
+            </xctk:MultiLineTextEditor>
+            <Button Grid.Row="2" Grid.Column="2" MinWidth="120" Height="30" Command="{Binding SaveClickCommand}">Save Config</Button>
+
+            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Model"></Label>
+
+            <ComboBox Grid.Row="3" Grid.Column="1" Style="{StaticResource ListComboBoxStyle}"
                       ItemsSource="{Binding Source={tools:EnumBindingSource enumTypes:ModelType}}"
                       SelectedIndex="{Binding ModelType}">
             </ComboBox>
-            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Max Token"></Label>
-            <Slider x:Name="Token" Grid.Row="3" Grid.Column="1" Width="120" Height="30" Margin="0,13,0,0"
-                    Minimum="500" Maximum="4000" TickFrequency="100" IsSnapToTickEnabled="True" Value="{Binding MaxToken}">
+            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Max Token"></Label>
+            <Slider x:Name="Token" Grid.Row="4" Grid.Column="1" Width="120" Height="30" Margin="0,13,0,0"
+                    Minimum="500" Maximum="4000" TickFrequency="100" IsSnapToTickEnabled="True"
+                    Value="{Binding MaxToken}" IsEnabled="{Binding IsEnabled}">
             </Slider>
-            <Label Grid.Row="3" Grid.Column="2" Width="40" Height="30" Content="{Binding ElementName=Token, Path=Value}"></Label>
-            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Language"></Label>
-            <ComboBox Grid.Row="4" Grid.Column="1" Style="{StaticResource ListComboBoxStyle}"
+            <Label Grid.Row="4" Grid.Column="2" Width="40" Height="30"
+                   Content="{Binding ElementName=Token, Path=Value}">
+            </Label>
+            <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource ListLabelStyle}" Content="Language"></Label>
+            <ComboBox Grid.Row="5" Grid.Column="1" Style="{StaticResource ListComboBoxStyle}"
                       ItemsSource="{Binding Source={tools:EnumBindingSource enumTypes:LanguageType}}"
                       SelectedIndex="{Binding LanguageType}">
             </ComboBox>
-            <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Height="40" Width="120" Margin="5" Content="Clear Chats" Command="{Binding ClearClickCommand}" IsEnabled="{Binding IsEnabled}"></Button>
-                <Button Height="40" Width="120" Margin="5" Content="Save Chats" Command="{Binding SaveReadingChatsClickCommand}" IsEnabled="{Binding IsEnabled}"></Button>
+            <Button Grid.Row="5" Grid.Column="2" Height="30" MinWidth="120" Content="{Binding SoundContent}"
+                    Command="{Binding SoundClickCommand}" IsEnabled="{Binding IsEnabled}">
+            </Button>
+            <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button Height="40" Width="120" Margin="5" Content="Clear Chats" Command="{Binding ClearClickCommand}"
+                        IsEnabled="{Binding IsEnabled}">
+                </Button>
+                <Button Height="40" Width="120" Margin="5" Content="Save Chats"
+                        Command="{Binding SaveReadingChatsClickCommand}">
+                </Button>
             </StackPanel>
         </Grid>
         <components:ScrollingListBox Grid.Row="0" Grid.Column="0" MinWidth="800" BorderBrush="#D3D3D3"
@@ -91,7 +122,7 @@
                     <Image Source="../Icons/SendMessage.png"></Image>
                 </Button>
                 <Button Height="30" Width="30" Margin="2" Background="Transparent" BorderThickness="0"
-                        Command="{Binding RecordClickCommand }" IsDefault="True">
+                        Command="{Binding RecordClickCommand }">
                     <Image Source="{Binding RecordImg}"></Image>
                 </Button>
             </StackPanel>

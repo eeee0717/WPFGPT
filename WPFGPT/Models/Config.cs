@@ -6,7 +6,6 @@ namespace WPFGPT.Models;
 public class Config
 { 
     public string? Api { get; set; }
-    public string? System { get; set; }
 
     public void GetConfig()
     {
@@ -16,7 +15,6 @@ public class Config
             var config = new Config
             {
                 Api = "",
-                System = ""
             };
             var configString = JsonConvert.SerializeObject(config);
             File.Create(configJson).Close();
@@ -34,7 +32,6 @@ public class Config
         {
             var config = JsonConvert.DeserializeObject<Config>(jsonString);
             this.Api = config!.Api;
-            this.System = config.System;
         }
     }
 }

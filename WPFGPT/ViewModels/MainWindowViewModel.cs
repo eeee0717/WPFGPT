@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,23 +25,29 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly ChatGpt _chatGpt;
     private readonly Config _config;
     private readonly Audio _audio;
-    private string? _keyWords = null;
-    private bool _isRecording = false;
+    private readonly SystemSetting _systemSetting;
+    private string? _keyWords;
+    private bool _isRecording;
+    private string[] _systemArray;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ClickCommand))]
     private string? _messageInput;
     [ObservableProperty] private string? _apiKey;
-    [ObservableProperty] private int _systemType;
     [ObservableProperty] private int _modelType;
     [ObservableProperty] private int _maxToken = 100;
     [ObservableProperty] private string? _system;
+    [ObservableProperty] private int _systemType;
     [ObservableProperty] private bool? _isEnabled;
     [ObservableProperty] private string? _recordImg = "Icons/Record.png";
     [ObservableProperty] private int _languageType;
+    [ObservableProperty] private string _soundContent = "Close Sound";
+    [ObservableProperty] private bool _soundState = true;
+
     public MainWindowViewModel()
     {
         this._chatGpt = new ChatGpt();
         this._config = new Config();
         this._audio = new Audio();
+        this._systemSetting = new SystemSetting();
         this.Initialize();
         
     }
@@ -49,6 +56,8 @@ public partial class MainWindowViewModel : ObservableObject
     {
         this._config.GetConfig();
         this.SetSettings();
+        this._systemSetting.GenerateSystemFile();
+        this.GetSystemSettings();
         if (this.ApiKey == "")
         {
             MessageBox.Show("Please Set The Api Key!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -58,7 +67,21 @@ public partial class MainWindowViewModel : ObservableObject
     private void SetSettings()
     {
         this.ApiKey = this._config.Api;
-        this.System = this._config.System;
+    }
+
+    private void GetSystemSettings()
+    {
+        string txtString;
+        using (StreamReader reader = new StreamReader(this._systemSetting.SystemSettingTxt))
+        {
+            txtString = reader.ReadToEnd();
+        }
+
+        if (!string.IsNullOrEmpty(txtString))
+        {
+            this._systemArray = txtString.Split('\n');
+            this.System = this._systemArray[0];
+        }
     }
 
     private void CheckApi()
@@ -89,7 +112,7 @@ public partial class MainWindowViewModel : ObservableObject
         this.ChatObservableCollection.Add(chatMessage);
         this.MessageInput = "";
         this.IsEnabled = false;
-        await this._chatGpt.Chat(this.ChatObservableCollection, chatMessage.Message,  this.ModelType);
+        await this._chatGpt.Chat(this.ChatObservableCollection, chatMessage.Message,  this.ModelType, this.SoundState);
         this.IsEnabled = true;
     }
 
@@ -116,7 +139,6 @@ public partial class MainWindowViewModel : ObservableObject
         var config = new Config
         {
             Api = this.ApiKey,
-            System = this.System
         };
         var configString = JsonConvert.SerializeObject(config);
         File.Create(configJson).Close();
@@ -143,5 +165,21 @@ public partial class MainWindowViewModel : ObservableObject
             this.MessageInput = await this._chatGpt.Whisper(language.ToString()!);
         }
     }
+
+    [RelayCommand]
+    private void SoundClick()
+    {
+        this.SoundContent = this.SoundState ? "Open Sound" : "Close Sound";
+        this.SoundState = !this.SoundState;
+
+    }
+
+    [RelayCommand]
+    private void SystemChanged()
+    {
+        var type = this.SystemType;
+        this.System = this._systemArray[type];
+    }
+    
 
 }
